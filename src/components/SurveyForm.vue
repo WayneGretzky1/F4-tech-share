@@ -69,34 +69,53 @@
                 </select>
 
                 <legend>Should the Minnesota Twins keep Pablo Lopez?</legend>
+                <!-- toggle switch code -->
                 <div class="checkbox-group">
                   <label class="pure-checkbox">
                     Yes
-                    <input id="q4" type="checkbox" name="q4" value="yes" v-model="q4" />
-                  </label>
-                </div>
+                    <button type="button"
+                      :class="['toggle-container', q4 ? 'end' : 'start']"
+                      @click="toggleSwitch"
+                    >
+                    <motion.div
+                      :data-state="q4"
+                      class="toggle-handle"
+                      layout
+                      :transition="{
+                          type: 'spring',
+                          visualDuration: 0.2,
+                          bounce: 0.2
+                      }"
+                    />
+                   </button>
 
-                <motion.div
-                  v-if="q4"
-                  id="q4_text"
-                  style="margin-top: 1em"
-                  :initial="{ opacity: 0, y: -20 }"
-                  :animate="{ opacity: 1, y: 0 }"
-                  :exit="{ opacity: 0, y: -20 }"
-                  :transition="{ duration: 0.5, ease: 'easeOut' }"
-                >
-                  <label for="q4_text_input">Please describe why:</label>
-                  <motion.textarea
-                    id="q4_text_input"
-                    name="q4_text"
-                    style="width: 100%"
-                    rows="4"
-                    v-model="conditionsText"
-                    :initial="{ opacity: 0 }"
-                    :animate="{ opacity: 1 }"
-                    :transition="{ duration: 0.6, delay: 0.2 }"
-                  />
-                </motion.div>
+                   </label>
+                </div>
+                <!-- end of toggle switch code -->
+
+                <AnimatePresence>
+                  <motion.div
+                    v-if="q4"
+                    id="q4_text"
+                    style="margin-top: 1em"
+                    :initial="{ opacity: 0, y: -20 }"
+                    :animate="{ opacity: 1, y: 0 }"
+                    :exit="{ opacity: 0, y: -20 }"
+                    :transition="{ duration: 0.5, ease: 'easeOut' }"
+                  >
+                    <label for="q4_text_input">Please describe why:</label>
+                    <motion.textarea
+                      id="q4_text_input"
+                      name="q4_text"
+                      style="width: 100%"
+                      rows="4"
+                      v-model="conditionsText"
+                      :initial="{ opacity: 0 }"
+                      :animate="{ opacity: 1 }"
+                      :transition="{ duration: 0.6, delay: 0.2 }"
+                    />
+                  </motion.div>
+                </AnimatePresence>
               </fieldset>
 
               <button type="submit" class="pure-button pure-button-primary">Next</button>
@@ -109,20 +128,64 @@
 </template>
 
 <script setup>
-import { motion } from 'motion-v'
-import { ref, onMounted } from 'vue'
+import { motion, AnimatePresence } from 'motion-v'
+import { ref, onMounted , onBeforeUnmount} from 'vue'
 
 defineOptions({ name: 'SurveyForm' })
 
 const scrollY = ref(0)
+const onScroll = () => (scrollY.value = window.scrollY)
 onMounted(() => {
-  window.addEventListener('scroll', () => {
-    scrollY.value = window.scrollY
-  })
+  window.addEventListener('scroll', onScroll)
 })
+onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 
 const conditionsText = ref('')
+
+
+// toggle switch script
 const q4 = ref(false)
+
+
+const toggleSwitch = () => {
+  q4.value = !q4.value
+}
+//end of switch button script
+
 </script>
 
 <style src="../assets/SurveyForm.css"></style>
+
+<style scoped>
+/* toggle switch styles */
+
+.toggle-container {
+    width: 100px;
+    height: 50px;
+    background-color: var(--hue-3-transparent);
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.toggle-container.start {
+    justify-content: flex-start;
+}
+
+.toggle-container.end {
+    justify-content: flex-end;
+}
+
+.toggle-handle {
+    width: calc(50px - 2 * 10px);     /* 50 (track height) - 2*padding = 30px */
+    height: calc(50px - 2 * 10px);
+    background-color: #9911ff;
+    border-radius: 50%;
+}
+
+/* end of toggle switch styles */
+</style>
