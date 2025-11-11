@@ -29,8 +29,14 @@
       :transition="{ duration: 0.8, ease: 'easeOut' }"
     >
       <div class="content">
-        <h2 class="content-head is-center">Should the Minnesota Twins keep Pablo Lopez?</h2>
 
+        <!-- typing the question -->
+
+        <h2 class="content-head is-center">
+          <span>{{ typed }}</span><span class="cursor">|</span>
+        </h2>
+
+        <!-- end of typing question -->
         <div class="pure-g">
           <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
             <form class="pure-form pure-form-stacked" id="survey">
@@ -136,7 +142,7 @@
 </template>
 
 <script setup>
-import { motion, AnimatePresence, useScroll } from 'motion-v'
+import { motion, AnimatePresence, useScroll, animate } from 'motion-v'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 defineOptions({ name: 'SurveyForm' })
@@ -157,7 +163,20 @@ onMounted(() => {
 
   window.addEventListener('scroll', onScroll)
   onScroll()
+
+    // typing
+  const text = question.value
+  controls = animate(0, text.length, {
+    duration: text.length * 0.1,
+    ease: 'linear',
+    onUpdate: (v) => {
+      typed.value = text.slice(0, Math.floor(v))
+    }
+  })
 })
+
+
+
 
 // Scroll indicator end
 
@@ -173,6 +192,15 @@ const toggleSwitch = () => {
   q4.value = !q4.value
 }
 //end of switch button script
+
+
+// typing question animation
+
+const question = ref('Should the Minnesota Twins keep Pablo Lopez?')
+const typed = ref('')
+let controls
+// end of typing question animastion
+
 </script>
 
 <style src="../assets/SurveyForm.css"></style>
@@ -224,4 +252,15 @@ const toggleSwitch = () => {
 }
 
 /* end of toggle switch styles */
+
+/* typing cursor style */
+
+.cursor {
+  display: inline-block;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* end of typing cursor  */
+
 </style>
