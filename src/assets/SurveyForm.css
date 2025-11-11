@@ -260,3 +260,11 @@ a.pure-button-primary {
     font-size: 300%;
   }
 }
+
+.pablo-image {
+  width: 100%;
+  max-width: 600px;
+  display: block;
+  margin: 2rem auto;
+  border-radius: 8px;
+}

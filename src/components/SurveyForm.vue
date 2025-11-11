@@ -29,14 +29,20 @@
       :transition="{ duration: 0.8, ease: 'easeOut' }"
     >
       <div class="content">
-
-        <!-- typing the question -->
+        <motion.img
+          src="/pb-throw.jpg"
+          alt="Pablo Lopez throwing a pitch"
+          class="pablo-image"
+          :initial="{ opacity: 0, y: 50 }"
+          :animate="{ opacity: 1, y: scrollY * -0.2, rotate: scrollY * 0.02 }"
+          :transition="{ type: 'spring', stiffness: 120, damping: 20 }"
+        />
 
         <h2 class="content-head is-center">
-          <span>{{ typed }}</span><span class="cursor">|</span>
+          <span>{{ typed }}</span
+          ><span class="cursor">|</span>
         </h2>
 
-        <!-- end of typing question -->
         <div class="pure-g">
           <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
             <form class="pure-form pure-form-stacked" id="survey">
@@ -75,7 +81,6 @@
                 </select>
 
                 <legend>Should the Minnesota Twins keep Pablo Lopez?</legend>
-                <!-- toggle switch code -->
                 <div class="checkbox-group">
                   <label class="pure-checkbox">
                     Yes
@@ -97,7 +102,6 @@
                     </button>
                   </label>
                 </div>
-                <!-- end of toggle switch code -->
 
                 <AnimatePresence>
                   <motion.div
@@ -124,7 +128,15 @@
                 </AnimatePresence>
               </fieldset>
 
-              <button type="submit" class="pure-button pure-button-primary">Next</button>
+              <motion.button
+                type="submit"
+                class="pure-button pure-button-primary"
+                :while-hover="{ scale: 1.1 }"
+                :while-tap="{ scale: 0.95 }"
+                :transition="{ duration: 0.2 }"
+              >
+                Next
+              </motion.button>
             </form>
           </div>
         </div>
@@ -149,7 +161,6 @@ defineOptions({ name: 'SurveyForm' })
 
 const { scrollYProgress } = useScroll()
 
-// Scroll indicator start
 const scrollY = ref(0)
 const onScroll = () => (scrollY.value = window.scrollY)
 
@@ -164,49 +175,34 @@ onMounted(() => {
   window.addEventListener('scroll', onScroll)
   onScroll()
 
-    // typing
   const text = question.value
   controls = animate(0, text.length, {
     duration: text.length * 0.1,
     ease: 'linear',
     onUpdate: (v) => {
       typed.value = text.slice(0, Math.floor(v))
-    }
+    },
   })
 })
 
-
-
-
-// Scroll indicator end
-
 onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
-
 
 const conditionsText = ref('')
 
-// toggle switch script
 const q4 = ref(false)
 
 const toggleSwitch = () => {
   q4.value = !q4.value
 }
-//end of switch button script
-
-
-// typing question animation
 
 const question = ref('Should the Minnesota Twins keep Pablo Lopez?')
 const typed = ref('')
 let controls
-// end of typing question animastion
-
 </script>
 
 <style src="../assets/SurveyForm.css"></style>
 
 <style scoped>
-/* scroll indicator styles */
 .scroll-indicator {
   position: fixed;
   top: 0;
@@ -217,11 +213,6 @@ let controls
   transform-origin: left;
   z-index: 9999;
 }
-
-/* end of scroll indicator styles */
-
-
-/* toggle switch styles */
 
 .toggle-container {
   width: 100px;
@@ -245,22 +236,19 @@ let controls
 }
 
 .toggle-handle {
-  width: calc(50px - 2 * 10px); /* 50 (track height) - 2*padding = 30px */
+  width: calc(50px - 2 * 10px);
   height: calc(50px - 2 * 10px);
   background-color: #9911ff;
   border-radius: 50%;
 }
 
-/* end of toggle switch styles */
-
-/* typing cursor style */
-
 .cursor {
   display: inline-block;
   animation: blink 1s steps(1) infinite;
 }
-@keyframes blink { 50% { opacity: 0; } }
-
-/* end of typing cursor  */
-
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 </style>
