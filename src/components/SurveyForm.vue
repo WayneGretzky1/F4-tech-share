@@ -73,23 +73,23 @@
                 <div class="checkbox-group">
                   <label class="pure-checkbox">
                     Yes
-                    <button type="button"
+                    <button
+                      type="button"
                       :class="['toggle-container', q4 ? 'end' : 'start']"
                       @click="toggleSwitch"
                     >
-                    <motion.div
-                      :data-state="q4"
-                      class="toggle-handle"
-                      layout
-                      :transition="{
+                      <motion.div
+                        :data-state="q4"
+                        class="toggle-handle"
+                        layout
+                        :transition="{
                           type: 'spring',
                           visualDuration: 0.2,
-                          bounce: 0.2
-                      }"
-                    />
-                   </button>
-
-                   </label>
+                          bounce: 0.2,
+                        }"
+                      />
+                    </button>
+                  </label>
                 </div>
                 <!-- end of toggle switch code -->
 
@@ -124,67 +124,103 @@
         </div>
       </div>
     </motion.div>
+
+    <motion.div
+      id="scroll-indicator"
+      class="scroll-indicator"
+      :initial="{ scaleX: 0 }"
+      :animate="{ scaleX: indicatorScale }"
+      :transition="{ type: 'spring', stiffness: 120, damping: 14 }"
+    />
   </div>
 </template>
 
 <script setup>
-import { motion, AnimatePresence } from 'motion-v'
-import { ref, onMounted , onBeforeUnmount} from 'vue'
+import { motion, AnimatePresence, useScroll } from 'motion-v'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 defineOptions({ name: 'SurveyForm' })
 
+const { scrollYProgress } = useScroll()
+
+// Scroll indicator start
 const scrollY = ref(0)
 const onScroll = () => (scrollY.value = window.scrollY)
+
+const indicatorScale = ref(0)
+
 onMounted(() => {
+  scrollYProgress.onChange((v) => {
+    indicatorScale.value = v
+  })
+  indicatorScale.value = scrollYProgress.get()
+
   window.addEventListener('scroll', onScroll)
+  onScroll()
 })
+
+// Scroll indicator end
+
 onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+
 
 const conditionsText = ref('')
 
-
 // toggle switch script
 const q4 = ref(false)
-
 
 const toggleSwitch = () => {
   q4.value = !q4.value
 }
 //end of switch button script
-
 </script>
 
 <style src="../assets/SurveyForm.css"></style>
 
 <style scoped>
+/* scroll indicator styles */
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background-color: #ff0088;
+  transform-origin: left;
+  z-index: 9999;
+}
+
+/* end of scroll indicator styles */
+
+
 /* toggle switch styles */
 
 .toggle-container {
-    width: 100px;
-    height: 50px;
-    background-color: var(--hue-3-transparent);
-    border-radius: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    overflow: hidden;
-    box-sizing: border-box;
+  width: 100px;
+  height: 50px;
+  background-color: var(--hue-3-transparent);
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .toggle-container.start {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .toggle-container.end {
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .toggle-handle {
-    width: calc(50px - 2 * 10px);     /* 50 (track height) - 2*padding = 30px */
-    height: calc(50px - 2 * 10px);
-    background-color: #9911ff;
-    border-radius: 50%;
+  width: calc(50px - 2 * 10px); /* 50 (track height) - 2*padding = 30px */
+  height: calc(50px - 2 * 10px);
+  background-color: #9911ff;
+  border-radius: 50%;
 }
 
 /* end of toggle switch styles */
