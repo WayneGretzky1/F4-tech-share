@@ -99,6 +99,7 @@ onMounted(() => {
   background: #0f172a;
   padding: 40px;
   border-radius: 12px;
+  margin-top: 0;
 }
 
 .splash-head {

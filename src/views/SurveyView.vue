@@ -46,7 +46,7 @@
                     class="pure-radio"
                     :initial="{ opacity: 0, x: -20 }"
                     :whileInView="{ opacity: 1, x: 0 }"
-                    :transition="{ delay: index * 0.1, duration: 0.4 }"
+                    :transition="{ delay: index * 0.1, duration: 0.8 }"
                     :whileHover="{ scale: 1.05, x: 5 }"
                   >
                     {{ option }}
