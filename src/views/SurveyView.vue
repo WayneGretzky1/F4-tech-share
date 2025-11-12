@@ -1,15 +1,5 @@
 <template>
   <div>
-    <div class="header">
-      <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <ul class="pure-menu-list">
-          <li class="pure-menu-item pure-menu-selected">
-            <RouterLink to="/" class="pure-menu-link">Home</RouterLink>
-          </li>
-        </ul>
-      </div>
-    </div>
-
     <motion.div
       class="splash-container"
       :initial="{ opacity: 1, y: 0 }"
@@ -28,56 +18,53 @@
       :transition="{ duration: 0.8, ease: 'easeOut' }"
     >
       <div class="content">
-        <motion.img
-          src="/pb-throw.jpg"
-          alt="Pablo Lopez throwing a pitch"
-          class="pablo-image"
-          :initial="{ opacity: 0, y: 50 }"
-          :animate="{ opacity: 1, y: scrollY * -0.2, rotate: scrollY * 0.02 }"
-          :transition="{ type: 'spring', stiffness: 120, damping: 20 }"
-        />
-
         <h2 class="content-head is-center">
           <span>{{ typed }}</span
           ><span class="cursor">|</span>
         </h2>
-
         <div class="pure-g">
           <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
             <form class="pure-form pure-form-stacked" id="survey">
               <fieldset>
                 <legend>Describe your feelings on Pablo Lopez's tenure so far with the team</legend>
-                <input
+                <motion.input
                   id="q1"
                   type="text"
                   name="q1"
                   placeholder="Fill in the blank"
+                  :whileFocus="{ scale: 1.05, borderColor: 'rgb(31, 141, 214)' }"
+                  :transition="{ type: 'spring', stiffness: 300 }"
                   required
                   minlength="3"
                 />
 
                 <legend>How do you view Pablo Lopez as?</legend>
                 <div class="radio-group">
-                  <label class="pure-radio">
-                    Washed
-                    <input type="radio" name="q2" value="washed" />
-                  </label>
-                  <label class="pure-radio">
-                    Staff Ace
-                    <input type="radio" name="q2" value="staff_ace" />
-                  </label>
-                  <label class="pure-radio">
-                    Cy Young Award
-                    <input type="radio" name="q2" value="cy_young" />
-                  </label>
+                  <motion.label
+                    v-for="(option, index) in radioOptions"
+                    :key="option.value"
+                    class="pure-radio"
+                    :initial="{ opacity: 0, x: -20 }"
+                    :whileInView="{ opacity: 1, x: 0 }"
+                    :transition="{ delay: index * 0.1, duration: 0.4 }"
+                    :whileHover="{ scale: 1.05, x: 5 }"
+                  >
+                    {{ option }}
+                    <input type="radio" name="q2" :value="option" />
+                  </motion.label>
                 </div>
 
                 <legend>How do you view Pablo Lopez's current contract?</legend>
-                <select id="q3" name="q3">
+                <motion.select
+                  id="q3"
+                  name="q3"
+                  :whileHover="{ scale: 1.1, rotate: 1 }"
+                  :transition="{ type: 'spring', stiffness: 100, damping: 5 }"
+                >
                   <option>Overpaid</option>
                   <option>Fair</option>
                   <option>Great Value</option>
-                </select>
+                </motion.select>
 
                 <legend>Should the Minnesota Twins keep Pablo Lopez?</legend>
                 <div class="checkbox-group">
@@ -130,13 +117,24 @@
               <motion.button
                 type="submit"
                 class="pure-button pure-button-primary"
-                :while-hover="{ scale: 1.1 }"
-                :while-tap="{ scale: 0.95 }"
-                :transition="{ duration: 0.2 }"
+                :whileHover="{ scale: 1.15, rotate: 3 }"
+                :whileTap="{ scale: 0.9, rotate: -5 }"
+                :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
               >
                 Next
               </motion.button>
             </form>
+            <div style="display: flex; justify-content: center;">
+              <motion.img
+                src="/pb-throw.jpg"
+                alt="Pablo Lopez throwing a pitch"
+                style="width: 400px; height: auto"
+                class="pablo-image"
+                :initial="{ opacity: 0, y: 50 }"
+                :animate="{ opacity: 1, y: scrollY * -0.2, rotate: scrollY * 0.02 }"
+                :transition="{ type: 'spring', stiffness: 120, damping: 20 }"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -155,6 +153,8 @@
 <script setup>
 import { motion, AnimatePresence, useScroll, animate } from 'motion-v'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+const radioOptions = ['Washed', 'Staff Ace', 'Cy Young Award']
 
 defineOptions({ name: 'SurveyForm' })
 
@@ -202,20 +202,23 @@ let controls
 <style src="../assets/survey.css"></style>
 
 <style scoped>
+.splash {
+  margin-top: 0;
+}
 .scroll-indicator {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 10px;
-  background-color: #ff0088;
+  height: 7px;
+  background-color: rgb(31, 141, 214);
   transform-origin: left;
   z-index: 9999;
 }
 
 .toggle-container {
-  width: 100px;
-  height: 50px;
+  width: 60px;
+  height: 30px;
   background-color: var(--hue-3-transparent);
   border-radius: 50px;
   cursor: pointer;
@@ -235,8 +238,8 @@ let controls
 }
 
 .toggle-handle {
-  width: calc(50px - 2 * 10px);
-  height: calc(50px - 2 * 10px);
+  width: calc(40px - 2 * 10px);
+  height: calc(40px - 2 * 10px);
   background-color: #9911ff;
   border-radius: 50%;
 }
@@ -245,6 +248,13 @@ let controls
   display: inline-block;
   animation: blink 1s steps(1) infinite;
 }
+
+.pablo-image {
+  margin-top: 200px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(20, 20, 40, 0.1);
+}
+
 @keyframes blink {
   50% {
     opacity: 0;
