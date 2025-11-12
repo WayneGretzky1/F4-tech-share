@@ -1,13 +1,14 @@
-<template>
-  <div id="app">
-    <SurveyForm />
-  </div>
-</template>
-
-<script>
-import SurveyForm from './components/SurveyForm.vue'
-
-export default {
-  components: { SurveyForm },
-}
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
 </script>
+
+<template>
+  <header>
+    <div>
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+      </nav>
+    </div>
+  </header>
+  <RouterView />
+</template>

@@ -116,56 +116,6 @@ a.pure-button-primary {
   color: #aecfe5;
 }
 
-.pure-form {
-  border: 1px solid #ccc;
-  padding: 2em;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.pure-form fieldset > legend {
-  margin-top: 1.5em;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-
-.pure-form input,
-.pure-form select,
-.pure-form textarea,
-.pure-form .radio-group,
-.pure-form .checkbox-group {
-  margin-top: 0.5em;
-  margin-bottom: 1.5em;
-}
-
-.radio-group label,
-.checkbox-group label {
-  display: block;
-  margin-bottom: 0.5em;
-}
-
-.radio-group {
-  display: flex;
-  align-items: center;
-  margin: 0.5em 0;
-}
-
-.radio-group input[type='radio'] {
-  margin-right: 0.5em;
-}
-
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  margin: 0.5em 0;
-}
-
-.checkbox-group input[type='checkbox'] {
-  margin-right: 0.5em;
-}
-
 /*
  * -- SPLASH STYLES --
  */
@@ -229,6 +179,86 @@ a.pure-button-primary {
   padding: 1em 1em 3em;
 }
 
+.content-head {
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 2em 0 1em;
+}
+
+.content-head-ribbon {
+  color: white;
+}
+
+.content-subhead {
+  color: #1f8dd6;
+}
+.content-subhead i {
+  margin-right: 7px;
+}
+
+.pure-form {
+  border: 1px solid #ccc;
+  padding: 2em;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pure-form fieldset > legend {
+  margin-top: 1.5em;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.pure-form input,
+.pure-form select,
+.pure-form textarea,
+.pure-form .radio-group,
+.pure-form .checkbox-group {
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+.radio-group label,
+.checkbox-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  margin: 0.5em 0;
+}
+
+.radio-group input[type='radio'] {
+  margin-right: 0.5em;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin: 0.5em 0;
+}
+
+.checkbox-group input[type='checkbox'] {
+  margin-right: 0.5em;
+}
+
+.ribbon {
+  background: #2d3e50;
+  color: #aaa;
+}
+
+.footer {
+  background: #111;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
 @media (min-width: 48em) {
   body {
     font-size: 16px;
@@ -259,12 +289,4 @@ a.pure-button-primary {
   .splash-head {
     font-size: 300%;
   }
-}
-
-.pablo-image {
-  width: 100%;
-  max-width: 600px;
-  display: block;
-  margin: 2rem auto;
-  border-radius: 8px;
 }

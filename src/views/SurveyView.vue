@@ -2,10 +2,9 @@
   <div>
     <div class="header">
       <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="">Welcome</a>
         <ul class="pure-menu-list">
           <li class="pure-menu-item pure-menu-selected">
-            <a class="pure-menu-link" href="">Home</a>
+            <RouterLink to="/" class="pure-menu-link">Home</RouterLink>
           </li>
         </ul>
       </div>
@@ -200,7 +199,7 @@ const typed = ref('')
 let controls
 </script>
 
-<style src="../assets/SurveyForm.css"></style>
+<style src="../assets/survey.css"></style>
 
 <style scoped>
 .scroll-indicator {
