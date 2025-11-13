@@ -27,44 +27,50 @@
             <form class="pure-form pure-form-stacked" id="survey">
               <fieldset>
                 <legend>Describe your feelings on Pablo Lopez's tenure so far with the team</legend>
+                <!-- Input box -->
                 <motion.input
                   id="q1"
                   type="text"
                   name="q1"
                   placeholder="Fill in the blank"
-                  :whileFocus="{ scale: 1.05, borderColor: 'rgb(31, 141, 214)' }"
+                  :whileFocus="{ scale: 1.1, borderColor: 'rgb(31, 141, 214)' }"
                   :transition="{ type: 'spring', stiffness: 300 }"
                   required
                   minlength="3"
                 />
+                <!-- End of input box -->
 
                 <legend>How do you view Pablo Lopez as?</legend>
+                <!-- Radio buttons, staggering view -->
                 <div class="radio-group">
                   <motion.label
                     v-for="(option, index) in radioOptions"
                     :key="option.value"
                     class="pure-radio"
-                    :initial="{ opacity: 0, x: -20 }"
+                    :initial="{ opacity: 0, x: -80 }"
                     :whileInView="{ opacity: 1, x: 0 }"
                     :transition="{ delay: index * 0.1, duration: 0.8 }"
-                    :whileHover="{ scale: 1.05, x: 5 }"
+                    :whileHover="{ scale: 1.3, x: 5 }"
                   >
                     {{ option }}
                     <input type="radio" name="q2" :value="option" />
                   </motion.label>
                 </div>
+                <!-- End of Radio buttons, staggering view -->
 
                 <legend>How do you view Pablo Lopez's current contract?</legend>
+                <!-- Dropdown menu -->
                 <motion.select
                   id="q3"
                   name="q3"
-                  :whileHover="{ scale: 1.1, rotate: 1 }"
+                  :whileHover="{ scale: 1.3 }"
                   :transition="{ type: 'spring', stiffness: 100, damping: 5 }"
                 >
                   <option>Overpaid</option>
                   <option>Fair</option>
                   <option>Great Value</option>
                 </motion.select>
+                <!-- End of Dropdown menu -->
 
                 <legend>Should the Minnesota Twins keep Pablo Lopez?</legend>
                 <div class="checkbox-group">
@@ -75,6 +81,7 @@
                       :class="['toggle-container', q4 ? 'end' : 'start']"
                       @click="toggleSwitch"
                     >
+                      <!-- Toggle switch start -->
                       <motion.div
                         :data-state="q4"
                         class="toggle-handle"
@@ -85,10 +92,12 @@
                           bounce: 0.2,
                         }"
                       />
+                      <!-- Toggle switch end -->
                     </button>
                   </label>
                 </div>
 
+                <!-- Conditional text area -->
                 <AnimatePresence>
                   <motion.div
                     v-if="q4"
@@ -112,34 +121,27 @@
                     />
                   </motion.div>
                 </AnimatePresence>
+                <!-- End of Conditional text area -->
               </fieldset>
 
+              <!-- Next button, with rotation -->
               <motion.button
                 type="submit"
-                class="pure-button pure-button-primary"
+                class="pure-button pure-button-primary survey-view"
                 :whileHover="{ scale: 1.15, rotate: 3 }"
                 :whileTap="{ scale: 0.9, rotate: -5 }"
                 :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
               >
                 Next
               </motion.button>
+              <!-- End of next button, with rotation -->
             </form>
-            <div style="display: flex; justify-content: center;">
-              <motion.img
-                src="/pb-throw.jpg"
-                alt="Pablo Lopez throwing a pitch"
-                style="width: 400px; height: auto"
-                class="pablo-image"
-                :initial="{ opacity: 0, y: 50 }"
-                :animate="{ opacity: 1, y: scrollY * -0.2, rotate: scrollY * 0.02 }"
-                :transition="{ type: 'spring', stiffness: 120, damping: 20 }"
-              />
-            </div>
           </div>
         </div>
       </div>
     </motion.div>
 
+    <!-- Scroll indicator -->
     <motion.div
       id="scroll-indicator"
       class="scroll-indicator"
@@ -148,6 +150,7 @@
       :transition="{ type: 'spring', stiffness: 120, damping: 14 }"
     />
   </div>
+  <!-- End of scroll indicator -->
 </template>
 
 <script setup>
@@ -199,8 +202,6 @@ const typed = ref('')
 let controls
 </script>
 
-<style src="../assets/survey.css"></style>
-
 <style scoped>
 .splash {
   margin-top: 0;
@@ -247,12 +248,6 @@ let controls
 .cursor {
   display: inline-block;
   animation: blink 1s steps(1) infinite;
-}
-
-.pablo-image {
-  margin-top: 200px;
-  border-radius: 12px;
-  box-shadow: 0 6px 14px rgba(20, 20, 40, 0.1);
 }
 
 @keyframes blink {

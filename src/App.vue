@@ -21,5 +21,4 @@ import { RouterLink, RouterView } from 'vue-router'
 .home-menu .pure-menu-heading {
   color: #ffffff;
 }
-
 </style>

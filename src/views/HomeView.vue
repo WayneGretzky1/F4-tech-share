@@ -1,7 +1,7 @@
 <script setup>
+import '../assets/home.css'
 import { onMounted, ref, onBeforeUnmount } from 'vue'
 import { motion, useAnimate } from 'motion-v'
-
 
 const [scope, animate] = useAnimate()
 
@@ -11,15 +11,12 @@ const createBaseballs = () => {
   for (let i = 0; i < 15; i++) {
     baseballs.value.push({
       id: i,
-      left: (i * 10) + (Math.random() * 5),
+      left: i * 5 + Math.random() * 3,
       delay: Math.random() * 5,
-      duration: 3 + Math.random() * 2
+      duration: 3 + Math.random() * 2,
     })
   }
 }
-
-
-
 
 // catch the ball
 
@@ -59,32 +56,26 @@ const checkCollisions = () => {
       ball.classList.add('collected')
 
       // animate ball into nothing
-      animate(
-        ball,
-        { scale: 0, opacity: 0 },
-        { duration: 0.25 }
-      )
+      animate(ball, { scale: 0, opacity: 0 }, { duration: 0.25 })
     }
   })
 
   frameId = requestAnimationFrame(checkCollisions)
 }
 
-
-
-
 onMounted(() => {
   createBaseballs()
 
-  animate('.splash-head', { opacity: 1, y: 0 }, { duration: 0.8, type: 'spring', stiffness: 100, damping: 10 })
-    .then(() => {
-      animate('.splash-subhead', { opacity: 1 }, { duration: 0.6 })
-      animate('.buttons', { opacity: 1 }, { duration: 0.6, delay: 0.2 })
-    })
+  animate(
+    '.splash-head',
+    { opacity: 1, y: 0 },
+    { duration: 0.8, type: 'spring', stiffness: 100, damping: 10 },
+  ).then(() => {
+    animate('.splash-subhead', { opacity: 1 }, { duration: 0.6 })
+    animate('.buttons', { opacity: 1 }, { duration: 0.6, delay: 0.2 })
+  })
   frameId = requestAnimationFrame(checkCollisions)
-
 })
-
 </script>
 
 <template>
@@ -101,7 +92,7 @@ onMounted(() => {
         duration: ball.duration,
         delay: ball.delay,
         repeat: Infinity,
-        ease: 'linear'
+        ease: 'linear',
       }"
     >
       ⚾
@@ -127,7 +118,6 @@ onMounted(() => {
       </p>
     </div>
 
-
     <!-- Draggable trash can -->
     <motion.div
       class="trash-can"
@@ -141,61 +131,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.splash-container {
-  background: #0f172a;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.baseball {
-  position: absolute;
-  font-size: 30px;
-  pointer-events: none;
-  z-index: 5;
-  top: 0;
-  filter: opacity(0.8);
-}
-
-.splash {
-  text-align: center;
-  max-width: 600px;
-  position: relative;
-  z-index: 10;
-  background: #0f172a;
-  padding: 40px;
-  border-radius: 12px;
-  margin-top: 0;
-}
-
-.splash-head {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
-  margin: 0 0 20px;
-  position: relative;
-  z-index: 10;
-  border: 2px solid white;
-  border-radius: 10px;
-  padding: 10px 15px;
-  animation: questionGlow 5s linear infinite;
-  box-shadow: 0 0 10px white;           /* soft glow */
-}
-@keyframes questionGlow {
-  0%   { border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }  /* blue */
-  25%  { border-color: #a855f7; box-shadow: 0 0 10px #a855f7; }  /* purple */
-  50%  { border-color: #ec4899; box-shadow: 0 0 10px #ec4899; }  /* pink */
-  75%  { border-color: #f59e0b; box-shadow: 0 0 10px #f59e0b; }  /* amber */
-  100% { border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }  /* back to blue */
-}
-
-
-
-
 .baseball {
   position: absolute;
   font-size: 30px;
@@ -218,13 +153,29 @@ onMounted(() => {
   }
 }
 
+@media (max-width: 768px) {
+  .splash-head {
+    font-size: 1.8rem;
+  }
+}
 
-.splash-subhead {
-  font-size: 1.2rem;
-  color: #94a3b8;
-  margin: 0 0 30px;
-  position: relative;
-  z-index: 10;
+/* trash */
+.trash-can {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  font-size: 80px;
+  cursor: grab;
+  z-index: 15;
+}
+
+.trash-can:active {
+  cursor: grabbing;
+}
+
+.baseball.collected {
+  animation: none;
+  pointer-events: none;
 }
 
 .btn {
@@ -241,8 +192,8 @@ onMounted(() => {
 }
 
 .btn-consent {
-  background: #3b82f6;
-  color: white;
+  background: white;
+  color: #1f8dd6;
   animation: breathe 2s ease-in-out infinite;
   box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
 }
@@ -250,21 +201,21 @@ onMounted(() => {
 @keyframes breathe {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
   }
   50% {
     transform: scale(1.08);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.9);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
   }
 }
 
 .btn-decline {
-  background: #1e293b;
-  color: white;
+  background: white;
+  color: #1f8dd6;
 }
 
 @media (max-width: 768px) {
@@ -273,14 +224,12 @@ onMounted(() => {
   }
 }
 
-
-
 /* trash */
 .trash-can {
   position: absolute;
   bottom: 30px;
   right: 30px;
-  font-size: 100px;
+  font-size: 80px;
   cursor: grab;
   z-index: 15;
 }
@@ -289,10 +238,8 @@ onMounted(() => {
   cursor: grabbing;
 }
 
-
 .baseball.collected {
   animation: none;
   pointer-events: none;
 }
-
 </style>
