@@ -65,7 +65,8 @@ label {
 /*
  * -- PURE BUTTON STYLES --
  */
-.pure-button {
+/* survey.css */
+.survey-view .pure-button {
   background-color: #1f8dd6;
   color: white;
   padding: 0.5em 2em;
