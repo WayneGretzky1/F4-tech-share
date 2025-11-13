@@ -8,10 +8,10 @@ const [scope, animate] = useAnimate()
 // Create baseball rain
 const baseballs = ref([])
 const createBaseballs = () => {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 15; i++) {
     baseballs.value.push({
       id: i,
-      left: (i * 5) + (Math.random() * 3),
+      left: (i * 10) + (Math.random() * 5),
       delay: Math.random() * 5,
       duration: 3 + Math.random() * 2
     })
@@ -280,7 +280,7 @@ onMounted(() => {
   position: absolute;
   bottom: 30px;
   right: 30px;
-  font-size: 80px;
+  font-size: 100px;
   cursor: grab;
   z-index: 15;
 }
