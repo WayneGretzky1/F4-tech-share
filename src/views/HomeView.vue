@@ -1,6 +1,7 @@
 <script setup>
+import { onMounted, ref, onBeforeUnmount } from 'vue'
 import { motion, useAnimate } from 'motion-v'
-import { onMounted, ref } from 'vue'
+
 
 const [scope, animate] = useAnimate()
 
@@ -17,6 +18,61 @@ const createBaseballs = () => {
   }
 }
 
+
+
+
+// catch the ball
+
+let frameId
+
+const checkCollisions = () => {
+  const container = scope.value
+  if (!container) {
+    frameId = requestAnimationFrame(checkCollisions)
+    return
+  }
+
+  const trash = container.querySelector('.trash-can')
+  if (!trash) {
+    frameId = requestAnimationFrame(checkCollisions)
+    return
+  }
+
+  const trashRect = trash.getBoundingClientRect()
+  const balls = container.querySelectorAll('.baseball')
+
+  balls.forEach((ball) => {
+    // already collected, skip
+    if (ball.dataset.collected === '1') return
+
+    const rect = ball.getBoundingClientRect()
+
+    const overlap =
+      rect.bottom > trashRect.top &&
+      rect.top < trashRect.bottom &&
+      rect.right > trashRect.left &&
+      rect.left < trashRect.right
+
+    if (overlap) {
+      // mark as collected
+      ball.dataset.collected = '1'
+      ball.classList.add('collected')
+
+      // animate ball into nothing
+      animate(
+        ball,
+        { scale: 0, opacity: 0 },
+        { duration: 0.25 }
+      )
+    }
+  })
+
+  frameId = requestAnimationFrame(checkCollisions)
+}
+
+
+
+
 onMounted(() => {
   createBaseballs()
 
@@ -25,7 +81,10 @@ onMounted(() => {
       animate('.splash-subhead', { opacity: 1 }, { duration: 0.6 })
       animate('.buttons', { opacity: 1 }, { duration: 0.6, delay: 0.2 })
     })
+  frameId = requestAnimationFrame(checkCollisions)
+
 })
+
 </script>
 
 <template>
@@ -67,6 +126,17 @@ onMounted(() => {
         </motion.span>
       </p>
     </div>
+
+
+    <!-- Draggable trash can -->
+    <motion.div
+      class="trash-can"
+      :drag="true"
+      :dragTransition="{ bounceStiffness: 200, bounceDamping: 15 }"
+    >
+      🗑️
+    </motion.div>
+    <!-- end of trash can -->
   </div>
 </template>
 
@@ -202,4 +272,27 @@ onMounted(() => {
     font-size: 1.8rem;
   }
 }
+
+
+
+/* trash */
+.trash-can {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  font-size: 80px;
+  cursor: grab;
+  z-index: 15;
+}
+
+.trash-can:active {
+  cursor: grabbing;
+}
+
+
+.baseball.collected {
+  animation: none;
+  pointer-events: none;
+}
+
 </style>
