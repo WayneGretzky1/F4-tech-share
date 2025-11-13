@@ -27,6 +27,7 @@
             <form class="pure-form pure-form-stacked" id="survey">
               <fieldset>
                 <legend>Describe your feelings on Pablo Lopez's tenure so far with the team</legend>
+                <!-- Input box -->
                 <motion.input
                   id="q1"
                   type="text"
@@ -37,8 +38,10 @@
                   required
                   minlength="3"
                 />
+                <!-- End of input box -->
 
                 <legend>How do you view Pablo Lopez as?</legend>
+                <!-- Radio buttons, staggering view -->
                 <div class="radio-group">
                   <motion.label
                     v-for="(option, index) in radioOptions"
@@ -53,8 +56,10 @@
                     <input type="radio" name="q2" :value="option" />
                   </motion.label>
                 </div>
+                <!-- End of Radio buttons, staggering view -->
 
                 <legend>How do you view Pablo Lopez's current contract?</legend>
+                <!-- Dropdown menu -->
                 <motion.select
                   id="q3"
                   name="q3"
@@ -65,6 +70,7 @@
                   <option>Fair</option>
                   <option>Great Value</option>
                 </motion.select>
+                <!-- End of Dropdown menu -->
 
                 <legend>Should the Minnesota Twins keep Pablo Lopez?</legend>
                 <div class="checkbox-group">
@@ -75,6 +81,7 @@
                       :class="['toggle-container', q4 ? 'end' : 'start']"
                       @click="toggleSwitch"
                     >
+                      <!-- Toggle switch start -->
                       <motion.div
                         :data-state="q4"
                         class="toggle-handle"
@@ -85,10 +92,12 @@
                           bounce: 0.2,
                         }"
                       />
+                      <!-- Toggle switch end -->
                     </button>
                   </label>
                 </div>
 
+                <!-- Conditional text area -->
                 <AnimatePresence>
                   <motion.div
                     v-if="q4"
@@ -112,8 +121,10 @@
                     />
                   </motion.div>
                 </AnimatePresence>
+                <!-- End of Conditional text area -->
               </fieldset>
 
+              <!-- Next button, with rotation -->
               <motion.button
                 type="submit"
                 class="pure-button pure-button-primary survey-view"
@@ -123,12 +134,14 @@
               >
                 Next
               </motion.button>
+              <!-- End of next button, with rotation -->
             </form>
           </div>
         </div>
       </div>
     </motion.div>
 
+    <!-- Scroll indicator -->
     <motion.div
       id="scroll-indicator"
       class="scroll-indicator"
@@ -137,6 +150,7 @@
       :transition="{ type: 'spring', stiffness: 120, damping: 14 }"
     />
   </div>
+  <!-- End of scroll indicator -->
 </template>
 
 <script setup>
